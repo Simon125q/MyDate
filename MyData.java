@@ -1,5 +1,6 @@
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyData
 {
@@ -7,25 +8,40 @@ public class MyData
     int month;
     int year;
     String weekDay;
-
-    public static int convertData(String inFileName, String outFileName)
-    {
-        System.out.println(inFileName + " " + outFileName);
-        readData(inFileName);
-
-        return 2;
+    private static String[] patterns = new String[]{
+        "^\\d{2}/\\d{1,2}/\\d{4}/ [a-z]{3,6}day$",
+        "^\\d{4}-\\d{2}-\\d{2} [a-z]{3,6}day\\n$",
+        "^[a-z]{3,6}day \\d{2}.\\d{1,2}.\\d{4}\\n$"
+    };
+    public MyData(String date)
+    {   
+        int patternNum = findMatchingPattern(date);
+        day = patternNum;
+        month = 12;
+        year = 2003;
+        weekDay = date;
     }
 
-    public static void readData(String inFileName)
+    public int findMatchingPattern(String date)
     {
-        try {
-            FileReader reader = new FileReader(inFileName);
+        for (int patternNum = 0; patternNum < patterns.length; patternNum++)
+        {
+            Pattern pattern = Pattern.compile(patterns[patternNum], Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(date);
+            
+            boolean found = matcher.find();
+            if (found)
+            {
+                return patternNum; 
+            }
+        };
+        return -1;
+    }
 
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
+    public String toString()
+    {
+        String date = weekDay + " " + day + "/" + month + "/" + year;
 
+        return date;
     }
 }
