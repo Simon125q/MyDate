@@ -13,7 +13,7 @@ public class Converter {
     {
         readData(inFileName);
         
-        System.out.println(lines);
+        //System.out.println(lines);
 
         int uniqueDatesNum = saveData(outFileName);
         return uniqueDatesNum;

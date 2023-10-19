@@ -34,7 +34,7 @@ public class MyData
           }
     }
 
-    public int findMatchingPattern(String date)
+    private int findMatchingPattern(String date)
     {
         for (int patternNum = 0; patternNum < patterns.length; patternNum++)
         {
@@ -46,14 +46,7 @@ public class MyData
                 return patternNum;
             }
         };
-        return -99;
-    }
-
-    public String toString()
-    {
-        String date = weekDay + " " + day + "/" + month + "/" + year;
-
-        return date;
+        return -1;
     }
 
     private void decomposeDate(String delimeter, String weekDayPos, String date)
@@ -89,6 +82,12 @@ public class MyData
             month = Integer.parseInt(elements[1]);
             year = Integer.parseInt(elements[2]);
         }
+    }
+    
+    public String toString()
+    {
+        String date = weekDay + " " + day + "/" + month + "/" + year;
 
+        return date;
     }
 }
