@@ -11,7 +11,6 @@ public class Converter {
 
     public int convertData(String inFileName, String outFileName)
     {
-        System.out.println(inFileName + " " + outFileName);
         readData(inFileName);
         
         System.out.println(lines);
