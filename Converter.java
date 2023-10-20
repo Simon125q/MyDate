@@ -1,66 +1,82 @@
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.HashSet;
 
 public class Converter {
-    ArrayList<MyData> lines = new ArrayList<>();
+    ArrayList<MyData> dates = new ArrayList<>();
+
+    public static void main(String[] args)
+    {
+        Converter dates = new Converter();
+        
+        int datesCount = dates.convertData("file_in.txt", "file_out.txt");
+        System.out.println("Number of unique dates: " + datesCount);
+
+    }
 
     public int convertData(String inFileName, String outFileName)
     {
-        readData(inFileName);
-        
-        //System.out.println(lines);
+        FileHandler saveReadDates = new FileHandler();
+        ArrayList<String> lines = new ArrayList<>();
+        ArrayList<MyData> dates = new ArrayList<>();
+        ArrayList<String> uniqueDates = new ArrayList<>();
 
-        int uniqueDatesNum = saveData(outFileName);
-        return uniqueDatesNum;
-    }
-
-    public void readData(String inFileName)
-    {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(inFileName));
-            String line = reader.readLine();
-            while (line != null)
-            {
-                lines.add(new MyData(line));
-                line = reader.readLine();
-            }
- 
-            reader.close();
+            lines = saveReadDates.readDataToArrrArrayList(inFileName);
         }
         catch(IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
-    }
-
-    public int saveData(String outFileName)
-    {
-        HashSet<String> uniqueDates = new HashSet<>();
-        try {
-            FileWriter writer = new FileWriter(outFileName);
-            Iterator<MyData> linesIterator = lines.iterator();
-            while (linesIterator.hasNext())
-            {
-                MyData date = linesIterator.next();
-                if (!uniqueDates.contains(date.toString()))
-                {
-                    uniqueDates.add(date.toString());
-                    writer.write(date.toString());
-                    writer.write("\r\n");
-                }
-            }
-            writer.close();
-        } catch (IOException e) {
+        
+        dates =  convertArray(lines);
+    
+        uniqueDates = getArrayOfUniqueStrings(dates);
+        
+        try{
+            saveReadDates.saveData("file_out.txt", uniqueDates);
+        }
+        catch(IOException e) {
             e.printStackTrace();
             System.exit(1);
-        }
+        } 
+        int uniqueDatesNum = uniqueDates.size();
 
-        return uniqueDates.size();
+        return uniqueDatesNum;
     }
+
+    public ArrayList<MyData> convertArray(ArrayList<String> lines)
+    {
+        Iterator<String> linIterable = lines.iterator();
+        ArrayList<MyData> dates = new ArrayList<>();
+
+        while(linIterable.hasNext())
+        {
+            dates.add(new MyData(linIterable.next()));
+        }
+        return dates;
+    }
+
+    public ArrayList<String> getArrayOfUniqueStrings(ArrayList<MyData> dates)
+    {
+        Iterator<MyData> datesIterator = dates.iterator();
+        ArrayList<String> uniqueDates = new ArrayList<>();
+        HashSet<String> datesChecker = new HashSet<>();
+
+        String date = datesIterator.next().toString();
+        while (datesIterator.hasNext())
+        {
+            if (!datesChecker.contains(date))
+            {
+                uniqueDates.add(date);
+                datesChecker.add(date);
+            }
+            date = datesIterator.next().toString();
+        }
+        
+        return uniqueDates;
+    }
+    
 }
 

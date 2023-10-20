@@ -8,7 +8,7 @@ public class MyData
     int year;
     String weekDay;
     private static String[] patterns = new String[]{
-        "^\\d{2}/\\d{1,2}/\\d{4}/ [a-z]{3,7}day$",
+        "^\\d{2}/\\d{1,2}/\\d{4}/[a-z]{3,7}day$",
         "^\\d{4}-\\d{2}-\\d{2} [a-z]{3,7}day$",
         "^[a-z]{3,7}day \\d{2}.\\d{1,2}.\\d{4}$"
     };
@@ -58,7 +58,7 @@ public class MyData
             weekDay = mainElem[0];
             datePos = 1;
         }
-        else if (weekDayPos == "end")
+        else if (weekDayPos == "end" && delimeter != "/")
         {
             weekDay = mainElem[1];
             datePos = 0;
@@ -69,6 +69,7 @@ public class MyData
             day = Integer.parseInt(elements[0]);
             month = Integer.parseInt(elements[1]);
             year = Integer.parseInt(elements[2]);
+            weekDay = elements[3];
         }
         else if (delimeter == "-")
         {
