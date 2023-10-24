@@ -17,25 +17,21 @@ public class Converter {
 
     public int convertData(String inFileName, String outFileName)
     {
-        FileHandler saveReadDates = new FileHandler();
-        ArrayList<String> lines = new ArrayList<>();
-        ArrayList<MyData> dates = new ArrayList<>();
         ArrayList<String> uniqueDates = new ArrayList<>();
-
-        try {
+    	try {
+            FileHandler saveReadDates = new FileHandler();
+            ArrayList<String> lines = new ArrayList<>();
+            ArrayList<MyData> dates = new ArrayList<>();
+            
             lines = saveReadDates.readDataToArrrArrayList(inFileName);
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        
-        dates =  convertArray(lines);
-    
-        uniqueDates = getArrayOfUniqueStrings(dates);
-        
-        try{
+       
+            dates =  convertArray(lines);
+            
+            uniqueDates = getArrayOfUniqueStrings(dates);
+		
             saveReadDates.saveData("file_out.txt", uniqueDates);
+            
+            
         }
         catch(IOException e) {
             e.printStackTrace();
