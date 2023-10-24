@@ -17,12 +17,13 @@ public class Converter {
 
     public int convertData(String inFileName, String outFileName)
     {
-        ArrayList<String> uniqueDates = new ArrayList<>();
+        int uniqueDatesNum = 0;
     	try {
             FileHandler saveReadDates = new FileHandler();
             ArrayList<String> lines = new ArrayList<>();
             ArrayList<MyData> dates = new ArrayList<>();
-            
+            ArrayList<String> uniqueDates = new ArrayList<>();
+
             lines = saveReadDates.readDataToArrrArrayList(inFileName);
        
             dates =  convertArray(lines);
@@ -31,13 +32,12 @@ public class Converter {
 		
             saveReadDates.saveData("file_out.txt", uniqueDates);
             
-            
+            uniqueDatesNum = uniqueDates.size();
         }
         catch(IOException e) {
             e.printStackTrace();
             System.exit(1);
         } 
-        int uniqueDatesNum = uniqueDates.size();
 
         return uniqueDatesNum;
     }
